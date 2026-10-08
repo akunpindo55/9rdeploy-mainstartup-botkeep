@@ -4,26 +4,27 @@ Repo publik kecil ini berisi launcher dan manifest Node untuk Botkeep; source 9R
 
 ## Pasang di Botkeep
 
-1. Buat server Node.js 22 dan impor repo `akunpindo55/9rdeploy-mainstartup-botkeep`, branch `main`.
-2. Jika panel meminta **Project root di dalam repo**, pilih root/default (`.` atau kosong), karena `package.json` berada di root repo, bukan di subfolder `app/`.
-3. Botkeep menaruh hasil checkout di folder server `/home/container/app`. Itu lokasi checkout di container Botkeep, bukan folder `app` di GitHub. Set Startup command tepat seperti ini:
+1. Buat server Node.js 22.
+2. Di bagian GitHub, pilih repo `akunpindo55/9rdeploy-mainstartup-botkeep`, branch `main`.
+3. Set **Project root** ke root repo (`.`), yaitu direktori yang berisi `package.json`. Jangan pilih subfolder `app/`; tidak ada folder itu di repo.
+4. Di Environment Botkeep, atur `INITIAL_PASSWORD` sebagai Secret berisi sandi pilihanmu. Jangan simpan sandi, `.env`, database, atau API key di GitHub.
+5. Isi **Startup command** hanya dengan:
 
    ```sh
-   cd /home/container/app && npm start
+   npm start
    ```
 
-   Jika File Manager server baru menunjukkan lokasi checkout yang berbeda, ganti hanya `/home/container/app` dengan lokasi checkout yang terlihat di sana.
-4. Di Environment Botkeep, set `INITIAL_PASSWORD` sebagai Secret berisi sandi pilihanmu. Jangan masukkan sandi, `.env`, database, atau API key ke GitHub.
-5. Simpan/Apply konfigurasi, lalu tekan Start. Tidak perlu menjalankan bootstrap terpisah: `npm start` memanggil `start.sh`, yang pada start pertama mengunduh, memeriksa, mengekstrak runtime, lalu menjalankannya. Saat restart, runtime yang sudah ada terdeteksi dan unduhan dilewati; command Startup tetap sama. Jangan jalankan `npm install`, `npm ci`, atau build di Botkeep.
-6. Server menggunakan `SERVER_PORT` dan bind ke `0.0.0.0`. Pemeriksaan endpoint: `https://<host-Botkeep>/api/health` harus mengembalikan `{"ok":true}`.
+   Botkeep menjalankannya dari Project root yang dipilih. `package.json` menjalankan `sh ./start.sh`; `start.sh` memanggil `bootstrap.sh` otomatis saat runtime belum terpasang, lalu menjalankan 9Router. Jadi jangan tambahkan `cd /home/container/app`, dan jangan jalankan bootstrap, `npm install`, `npm ci`, atau build sebagai command terpisah.
+6. Simpan/Apply konfigurasi lalu Start. Start pertama mengunduh, memeriksa, dan mengekstrak runtime. Pada restart, runtime yang sudah ada dipakai kembali tanpa unduhan ulang. Server memakai `SERVER_PORT` dan bind ke `0.0.0.0`.
+7. Setelah Console menunjukkan server siap, cek `https://<host-Botkeep>/api/health`; hasil yang diharapkan `{"ok":true}`.
 
-Database disimpan terpisah di `/home/container/.9router`; bootstrap tidak menghapus atau menimpa folder data tersebut.
+Data database disimpan terpisah di `/home/container/.9router`; bootstrap tidak menghapus atau menimpa folder data tersebut.
 
 ## Batas file dan ukuran
 
 Repo bootstrap berisi **6 file** dan ukurannya di bawah 20 MB, sehingga impor repo tidak membawa source aplikasi yang besar.
 
-Ada batasan penting: runtime yang diunduh berukuran **52.787.477 byte**. Setelah ekstraksi, arsip berisi **9.793 file biasa** dan 1.406 direktori (11.199 entri total). Loader mengambilnya langsung dari GitHub, bukan menyimpannya di repo bootstrap. Jadi metode ini memenuhi batas Botkeep 1.000 file/20 MB hanya jika batas itu berlaku untuk repo/berkas impor, bukan untuk file runtime hasil unduhan atau ekstraksi. Jika batas juga berlaku untuk runtime tersebut, jangan Start sebelum runtime dipangkas atau metode hostingnya diubah.
+Ada batasan penting: runtime yang diunduh berukuran **52.787.477 byte**. Setelah ekstraksi, arsip berisi **9.793 file biasa** dan 1.406 direktori (11.199 entri total). Loader mengambilnya langsung dari GitHub, bukan menyimpannya di repo bootstrap. Jadi metode ini memenuhi batas Botkeep 1.000 file/20 MB hanya jika batas itu berlaku untuk repo/berkas impor, bukan untuk file runtime hasil unduhan atau ekstraksi. Jika batas juga berlaku pada runtime tersebut, jangan Start sebelum runtime dipangkas atau metode hostingnya diubah.
 
 ## Detail teknis
 
