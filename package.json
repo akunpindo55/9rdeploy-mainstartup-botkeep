@@ -1,0 +1,11 @@
+{
+  "name": "9router-botkeep-launcher",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "sh ./start.sh"
+  }
+}

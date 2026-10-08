@@ -9,10 +9,10 @@ Repo publik kecil ini hanya memuat loader dan startup untuk Botkeep; source 9Rou
 3. Set Startup menjadi:
 
    ```sh
-   cd /home/container && exec sh ./start.sh
+   cd /home/container/app && npm start
    ```
 
-4. Start server dan tunggu log Next.js menunjukkan `Ready`. `start.sh` otomatis menjalankan bootstrap hanya bila runtime belum ada. Pada restart berikutnya, bootstrap melewati unduhan dan runtime langsung dijalankan; Startup tidak perlu diganti setelah instalasi pertama.
+4. Botkeep menjalankan `npm start` dari package.json, yang memanggil `sh ./start.sh`. Start pertama menjalankan bootstrap bila runtime belum ada; restart berikutnya memakai runtime yang sudah diunduh, jadi Startup tetap sama.
 5. Pastikan server memakai port `SERVER_PORT` dan bind ke `0.0.0.0`. Pemeriksaan endpoint: `https://<host-Botkeep>/api/health` harus mengembalikan `{"ok":true}`.
 
 Database persisten disimpan di `/home/container/.9router`. Bootstrap tidak menghapus atau menimpa direktori data tersebut. Jangan jalankan `npm install`, `npm ci`, atau build pada server dengan storage terbatas.
