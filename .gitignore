@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+.9router/
+.9r-standalone-runtime-*.tar.gz
+.9r-runtime-download-*.part
+.9r-runtime-stage-*/
+.9r-runtime-bootstrap.lock/
+9r-standalone-*/
