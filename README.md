@@ -21,7 +21,7 @@ Database persisten disimpan di `/home/container/.9router`. Bootstrap tidak mengh
 
 Checkout repo bootstrap ini berisi **4 file** dan ukurannya jauh di bawah 20 MB, sehingga impor repo tidak membawa 1.298 file source aplikasi.
 
-Ada batasan penting: runtime yang diunduh berukuran **52.787.477 byte** dan menghasilkan **11.199 file** saat diekstrak. Loader mengambilnya langsung dari GitHub, bukan menyimpannya di repo ini. Karena itu cara ini patuh hanya jika batas Botkeep 1.000 file/20 MB berlaku pada repo/berkas yang diimpor, bukan pada keseluruhan file runtime setelah diekstrak atau unduhan runtime. Jika limit Botkeep juga berlaku pada runtime hasil ekstraksi atau file unduhan server, arsip ini tidak memenuhi limit tersebut dan perlu runtime yang dibangun ulang/dipangkas terlebih dahulu.
+Ada batasan penting: runtime yang diunduh berukuran **52.787.477 byte**. Setelah ekstraksi, arsip berisi **9.793 file biasa** dan 1.406 direktori (11.199 entri total). Loader mengambilnya langsung dari GitHub, bukan menyimpannya di repo ini. Karena itu cara ini patuh hanya jika batas Botkeep 1.000 file/20 MB berlaku pada repo/berkas yang diimpor, bukan pada keseluruhan file runtime setelah diekstrak atau unduhan runtime. Jika limit Botkeep juga berlaku pada runtime hasil ekstraksi atau file unduhan server, arsip ini tidak memenuhi limit tersebut dan perlu runtime yang dibangun ulang/dipangkas terlebih dahulu.
 
 ## Detail teknis
 
